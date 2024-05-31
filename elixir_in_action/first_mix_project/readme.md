@@ -1,6 +1,14 @@
 # FirstMixProject
 
-**TODO: Add description**
+I added this differently than the docs said. 
+
+I made the folder first -- and then ran
+
+```shell
+mix new .
+```
+
+Which then created what you see here minus this section of docs.
 
 ## Installation
 
