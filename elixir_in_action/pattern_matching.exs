@@ -36,7 +36,7 @@ match_value = "Garry"
 IO.puts("Matched against #{match_value}")
 
 # List example
-[head | tail] = [1,2,3,4,5]
+[head | tail] = [1, 2, 3, 4, 5]
 
 IO.puts("Head: #{head}, Tail: ")
 IO.inspect(tail)

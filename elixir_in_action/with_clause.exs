@@ -14,6 +14,7 @@ defmodule ExampleWith do
 
   def check_login_filter(input) when is_map(input) do
     map_with_space = fn x -> ":" <> Atom.to_string(x) <> ", " end
+
     case Enum.filter(
            [:user, :token],
            &(not Map.has_key?(input, &1))
