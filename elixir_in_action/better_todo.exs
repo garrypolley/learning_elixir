@@ -107,12 +107,12 @@ BetterTodo.CsvImporter.import("./todos.csv")
 
 IO.puts("\n\nI'm a break\n\n")
 
-entries = [
+ [
   %{date: ~D[2019-01-01], title: "Do the thing"},
   %{date: ~D[2019-01-02], title: "Do the other thing"},
   %{date: ~D[2019-01-03], title: "Do the third thing"},
   %{date: ~D[2019-01-03], title: "Do the fourth thing"},
   %{date: ~D[2019-01-05], title: "Do the fifth thing"}
 ]
-Enum.into(entries, BetterTodo.new())
+|> Enum.into(BetterTodo.new())
 |> IO.puts()
