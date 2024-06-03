@@ -53,27 +53,28 @@ end
 
 defmodule TodoServer do
   def start do
-    spawn(fn -> loop(BetterTodo.new()) end)
+    pid = spawn(fn -> loop(BetterTodo.new()) end)
+    Process.register(pid, :todo_server)
   end
 
-  def add_entry(todo_server, entry) do
-    send(todo_server, {:add_entry, entry})
+  def add_entry(entry) do
+    send(:todo_server, {:add_entry, entry})
   end
 
-  def entries(todo_server, date) do
-    send(todo_server, {:entries, date})
+  def entries(date) do
+    send(:todo_server, {:entries, date})
   end
 
-  def update_entry(todo_server, entry_id, updater_fun) do
-    send(todo_server, {:update_entry, entry_id, updater_fun})
+  def update_entry(entry_id, updater_fun) do
+    send(:todo_server, {:update_entry, entry_id, updater_fun})
   end
 
-  def delete_entry(todo_server, entry_id) do
-    send(todo_server, {:delete_entry, entry_id})
+  def delete_entry(entry_id) do
+    send(:todo_server, {:delete_entry, entry_id})
   end
 
-  def get_todo_list(todo_server) do
-    send(todo_server, :get_todo_list)
+  def get_todo_list() do
+    send(:todo_server, :get_todo_list)
   end
 
   defp loop(todo_list) do
