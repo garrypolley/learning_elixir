@@ -15,7 +15,7 @@ def deps do
 end
 ```
 
-## Setup For testing
+## Setup For testing server
 
 Here's some stuff I've done to get some default data setup. 
 
@@ -24,15 +24,37 @@ iex -S mix
 ```
 
 ```elixir
-Todo.Server.start()
-Todo.Server.add_entry(%{date: ~D[2024-06-10], title: "Some Title"})
-Todo.Server.add_entry(%{date: ~D[2024-06-10], title: "Some Title Two"})
-Todo.Server.add_entry(%{date: ~D[2024-06-10], title: "Some Title Three"})
-Todo.Server.add_entry(%{date: ~D[2024-06-10], title: "Some Title Four"})
-Todo.Server.add_entry(%{date: ~D[2024-06-11], title: "Some other"})
-Todo.Server.add_entry(%{date: ~D[2024-06-11], title: "Some other Two"})
-Todo.Server.add_entry(%{date: ~D[2024-06-11], title: "Some other Three"})
-Todo.Server.add_entry(%{date: ~D[2024-06-11], title: "Some other Four"})
+{:ok, todo_server} = Todo.Server.start()
+Todo.Server.add_entry(todo_server, %{date: ~D[2024-06-10], title: "Some Title"})
+Todo.Server.add_entry(todo_server, %{date: ~D[2024-06-10], title: "Some Title Two"})
+Todo.Server.add_entry(todo_server, %{date: ~D[2024-06-10], title: "Some Title Three"})
+Todo.Server.add_entry(todo_server, %{date: ~D[2024-06-10], title: "Some Title Four"})
+Todo.Server.add_entry(todo_server, %{date: ~D[2024-06-11], title: "Some other"})
+Todo.Server.add_entry(todo_server, %{date: ~D[2024-06-11], title: "Some other Two"})
+Todo.Server.add_entry(todo_server, %{date: ~D[2024-06-11], title: "Some other Three"})
+Todo.Server.add_entry(todo_server, %{date: ~D[2024-06-11], title: "Some other Four"})
+
+Todo.Server.get_todo_list(todo_server)
+```
+
+## Setup for testing cache
+
+```elixir
+{:ok, cache} = Todo.Cache.start()
+bob_cache = Todo.Cache.server_process(cache, "Bob Cache")
+alice_cache = Todo.Cache.server_process(cache, "Alice Cache")
+
+Todo.Server.add_entry(bob_cache, %{date: ~D[2024-06-10], title: "Some Title"})
+Todo.Server.add_entry(bob_cache, %{date: ~D[2024-06-10], title: "Some Title Two"})
+Todo.Server.add_entry(bob_cache, %{date: ~D[2024-06-10], title: "Some Title Three"})
+
+Todo.Server.add_entry(alice_cache, %{date: ~D[2024-06-10], title: "Alice Title"})
+Todo.Server.add_entry(alice_cache, %{date: ~D[2024-06-10], title: "Alice Title Two"})
+Todo.Server.add_entry(alice_cache, %{date: ~D[2024-06-10], title: "Alice Title Three"})
+
+Todo.Server.entries(bob_cache, ~D[2024-06-10])
+
+Todo.Server.entries(alice_cache, ~D[2024-06-10])
 ```
 
 ## Default doc

@@ -10,17 +10,18 @@ defmodule Todo.List do
   def add_entry(todo_list, entry) do
     entry = Map.put(entry, :id, todo_list.next_id)
 
-    new_entries = Map.put(
-      todo_list.entries,
-      todo_list.next_id,
-      entry
-    )
+    new_entries =
+      Map.put(
+        todo_list.entries,
+        todo_list.next_id,
+        entry
+      )
 
     # Stateless auto incrementing id, kind of cool
     %Todo.List{
-      todo_list |
-      entries: new_entries,
-      next_id: todo_list.next_id + 1
+      todo_list
+      | entries: new_entries,
+        next_id: todo_list.next_id + 1
     }
   end
 
@@ -38,6 +39,7 @@ defmodule Todo.List do
     case Map.fetch(todo_list.entries, entry_id) do
       :error ->
         todo_list
+
       {:ok, old_entry} ->
         new_entry = updater_fun.(old_entry)
         new_entries = Map.put(todo_list.entries, entry_id, new_entry)
