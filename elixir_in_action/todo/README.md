@@ -57,6 +57,13 @@ Todo.Server.entries(bob_cache, ~D[2024-06-10])
 Todo.Server.entries(alice_cache, ~D[2024-06-10])
 ```
 
+## Initial test for cache that uses disk
+
+```elixir
+{:ok, cache} = Todo.Cache.start()
+bobs_list = Todo.Cache.server_process(cache, "bobs_list")
+Todo.Server.add_entry(bobs_list, %{date: ~D[2024-06-04], title: "hi there"})
+```
 ## Default doc
 
 Documentation can be generated with [ExDoc](https://github.com/elixir-lang/ex_doc)

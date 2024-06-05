@@ -27,3 +27,6 @@ todo-*.tar
 
 # Ignore the .elixir_ls
 .elixir_ls/
+
+# ignore the data files
+persist/*
